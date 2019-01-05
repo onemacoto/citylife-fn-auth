@@ -53,9 +53,10 @@ public abstract class BaseUserDetailService implements UserDetailsService {
 				true, authorities);
 
 		// TODO Auto-generated method stub
-		IHeaderUser headerUser =  UserValueObject.empty();
+		IHeaderUser headerUser = UserValueObject.empty();
 		headerUser.setUserId(baseUser.getId());
-		return new AppUserDetail(headerUser, user);
+		headerUser.setUserName(baseUser.getUserName());
+		return new AppUserDetail(jwtHelper.createToken(headerUser), user);
 	}
 
 	private boolean isActive(int active) {

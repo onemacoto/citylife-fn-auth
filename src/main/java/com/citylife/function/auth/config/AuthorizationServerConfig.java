@@ -1,5 +1,6 @@
 package com.citylife.function.auth.config;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.util.FieldUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.citylife.function.auth.token.SpeficUserAuthenticationConverter;
 
 @Configuration
 @Order(2)
@@ -36,6 +42,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Autowired
 	private DataSource dataSource;
+
+	@Autowired
+	private CheckTokenEndpoint checkTokenEndpoint;
+
+	@PostConstruct
+	public void init() throws IllegalAccessException {
+		DefaultAccessTokenConverter accessTokenConverter = DefaultAccessTokenConverter.class
+				.cast(FieldUtils.getFieldValue(checkTokenEndpoint, "accessTokenConverter"));
+		accessTokenConverter.setUserTokenConverter(new SpeficUserAuthenticationConverter());
+	}
 
 //    @Bean("jdbcTokenStore")
 //    public JdbcTokenStore getJdbcTokenStore() {
