@@ -12,7 +12,7 @@ public class PhoneUserDetailService extends BaseUserDetailService {
 		ResultEntity<ResponseVO<BaseUser>> result = baseUserClient.getUserByPhone(RequestVOBuilder.build(phone), "v1",
 				jwtHelper.createAdminToken());
 
-		return null;
+		return result.getBody().getData();
 	}
 
 }

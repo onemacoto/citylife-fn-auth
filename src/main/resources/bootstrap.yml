@@ -1,0 +1,12 @@
+spring: 
+  application:
+    name: fn-auth
+  profiles: 
+    include: base
+    active: windows,dev
+  messages:
+    basename:  i18n/messages, i18n/system-messages
+server:
+  port: 1003
+logging:
+    config: classpath:citylife-logback.xml

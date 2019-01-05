@@ -1,5 +1,6 @@
 package com.citylife.function.auth.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public abstract class BaseUserDetailService implements UserDetailsService {
 //		
 //		 List<BaseRole> roles;
 
-		List<GrantedAuthority> authorities = null;
+		List<GrantedAuthority> authorities = new ArrayList<>();
 
 		User user = new User(baseUser.getUserName(), baseUser.getPassword(), isActive(baseUser.getActive()), true, true,
 				true, authorities);

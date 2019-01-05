@@ -22,14 +22,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.citylife.function.auth.service.UsernameUserDetailService;
 
 @Configuration
 @Order(2)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
-	@Autowired
-	private UsernameUserDetailService userDetailsService;
+//
+//	@Autowired
+//	private UsernameUserDetailService userDetailsService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -38,7 +37,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private RedisConnectionFactory redisConnectionFactory;
 
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 
 //    @Bean("jdbcTokenStore")

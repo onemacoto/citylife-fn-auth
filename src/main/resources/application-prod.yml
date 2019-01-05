@@ -1,0 +1,22 @@
+spring: 
+  zipkin: 
+   enabled: 
+     sender:
+       type: web
+   base-url: http://172.40.2.127:9411
+   datasource:
+     url: jdbc:mysql://127.0.0.1/auth?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+     username: root
+     password: password
+     driver-class-name: com.mysql.cj.jdbc.Driver
+
+eureka:
+  client:
+    serviceUrl: 
+      defaultZone: http://172.40.2.115:8761/eureka,http://172.40.2.116:8761/eureka
+
+feign:
+  hystrix:
+    enabled: false
+    
+
