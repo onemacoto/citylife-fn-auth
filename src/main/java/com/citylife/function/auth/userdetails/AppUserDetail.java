@@ -11,11 +11,11 @@ public class AppUserDetail implements UserDetails, CredentialsContainer {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String headerUser;
+	private final String xUserToken;
 	private final org.springframework.security.core.userdetails.User user;
 
-	public AppUserDetail(String headerUser, User user) {
-		this.headerUser = headerUser;
+	public AppUserDetail(String xUserToken, User user) {
+		this.xUserToken = xUserToken;
 		this.user = user;
 	}
 
@@ -59,8 +59,8 @@ public class AppUserDetail implements UserDetails, CredentialsContainer {
 		return user.isEnabled();
 	}
 
-	public String getHeaderUser() {
-		return headerUser;
+	public String getXUserToken() {
+		return xUserToken;
 	}
 
 }

@@ -25,6 +25,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.citylife.function.auth.integration.IntegrationAuthenticationFilter;
 import com.citylife.function.auth.token.SpeficUserAuthenticationConverter;
 
 @Configuration
@@ -64,6 +65,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Bean
+	public IntegrationAuthenticationFilter integrationAuthenticationFilter() {
+		IntegrationAuthenticationFilter bean = new IntegrationAuthenticationFilter();
+		return bean;
+	}
+	
+	
+	@Bean
 	public TokenStore redisTokenStore() {
 		return new RedisTokenStore(redisConnectionFactory);
 	}
@@ -83,6 +91,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		// .reuseRefreshTokens(false).userDetailsService(userDetailsService);
 		// .tokenStore(getJdbcTokenStore());
 	}
+	
+	
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
@@ -90,7 +100,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				// 开启/oauth/token_key验证端口无权限访问
 				.tokenKeyAccess("permitAll()")
 				// 开启/oauth/check_token验证端口认证权限访问
-				.checkTokenAccess("isAuthenticated()");
+				.checkTokenAccess("isAuthenticated()").addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter());
 	}
 
 	@Bean

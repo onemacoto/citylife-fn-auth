@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.citylife.function.auth.provider.PhoneAuthenticationProvider;
+import com.citylife.function.auth.provider.UserNameDaoAuthenticationProvider;
 import com.citylife.function.auth.service.PhoneUserDetailService;
 import com.citylife.function.auth.service.UsernameUserDetailService;
 
@@ -19,8 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UsernameUserDetailService usernameUserDetailService;
 
-	@Autowired
-	private PhoneUserDetailService phoneUserDetailService;
+//	@Autowired
+//	private PhoneUserDetailService phoneUserDetailService;
 
 	@Override
 	@Bean
@@ -56,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(phoneAuthenticationProvider());
-		auth.authenticationProvider(daoAuthenticationProvider());
+	//	auth.authenticationProvider(phoneAuthenticationProvider());
+		auth.authenticationProvider(userNameDaoAuthenticationProvider());
 	}
 
 	@Bean
@@ -66,8 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public DaoAuthenticationProvider daoAuthenticationProvider() {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+	public UserNameDaoAuthenticationProvider userNameDaoAuthenticationProvider() {
+		UserNameDaoAuthenticationProvider provider = new UserNameDaoAuthenticationProvider();
 		// 设置userDetailsService
 		provider.setUserDetailsService(usernameUserDetailService);
 		// 禁止隐藏用户未找到异常
@@ -77,15 +76,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return provider;
 	}
 
-	@Bean
-	public PhoneAuthenticationProvider phoneAuthenticationProvider() {
-		PhoneAuthenticationProvider provider = new PhoneAuthenticationProvider();
-		// 设置userDetailsService
-		provider.setUserDetailsService(phoneUserDetailService);
-		// 禁止隐藏用户未找到异常
-		provider.setHideUserNotFoundExceptions(false);
-		return provider;
-	}
+//	@Bean
+//	public PhoneAuthenticationProvider phoneAuthenticationProvider() {
+//		PhoneAuthenticationProvider provider = new PhoneAuthenticationProvider();
+//		// 设置userDetailsService
+//		provider.setUserDetailsService(phoneUserDetailService);
+//		// 禁止隐藏用户未找到异常
+//		provider.setHideUserNotFoundExceptions(false);
+//		return provider;
+//	}
 
 	@Bean
 	public PhoneUserDetailService phoneUserDetailService() {
