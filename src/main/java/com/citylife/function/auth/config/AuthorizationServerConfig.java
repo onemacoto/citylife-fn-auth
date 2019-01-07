@@ -31,9 +31,6 @@ import com.citylife.function.auth.token.SpeficUserAuthenticationConverter;
 @Configuration
 @Order(2)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-//
-//	@Autowired
-//	private UsernameUserDetailService userDetailsService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -54,10 +51,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		accessTokenConverter.setUserTokenConverter(new SpeficUserAuthenticationConverter());
 	}
 
-//    @Bean("jdbcTokenStore")
-//    public JdbcTokenStore getJdbcTokenStore() {
-//        return new JdbcTokenStore(dataSource);
-//    }
 
 	@Bean("jdbcClientDetailsService")
 	public JdbcClientDetailsService jdbcClientDetailsService() {
@@ -85,11 +78,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		endpoints.authenticationManager(authenticationManager).tokenStore(redisTokenStore());
-		// 配置JwtAccessToken转换器
-		// .accessTokenConverter(jwtAccessTokenConverter())
-		// refresh_token需要userDetailsService
-		// .reuseRefreshTokens(false).userDetailsService(userDetailsService);
-		// .tokenStore(getJdbcTokenStore());
 	}
 	
 	
@@ -100,7 +88,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				// 开启/oauth/token_key验证端口无权限访问
 				.tokenKeyAccess("permitAll()")
 				// 开启/oauth/check_token验证端口认证权限访问
-				.checkTokenAccess("isAuthenticated()").addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter());
+				.checkTokenAccess("isAuthenticated()");
 	}
 
 	@Bean
@@ -116,5 +104,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
 	}
-
 }
